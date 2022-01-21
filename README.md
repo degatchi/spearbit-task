@@ -30,10 +30,11 @@ Reference: [Style guide for writing Spearbit reports](https://hackmd.io/@spearbi
 
 *Bonus*: There is simple, yet niche technique to avoid the critical issue by modifying `Implementation.sol`. Bonus point if you can include this in your recommendation.
 
+---
 
 # Report
 
-## Denial of service (DOS)
+## Proxy denial of service (DOS)
 **Severity**: High
 
 **Context**: [`Implementation.sol#17`](https://github.com/spearbit-audits/writing-exercise/blob/develop/contracts/Implementation.sol#L17)
