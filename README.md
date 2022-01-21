@@ -1,46 +1,31 @@
-# Forge Template
-> A catered template of https://github.com/FrankieIsLost/forge-template.
+# Spearbit Writing Exercise
 
-A template for quickly getting started with forge
+## Wallet Protocol
 
-## Getting Started
+You are given an implementation for a smart contract wallet. There are two contracts
 
-```
-mkdir my-project
-cd my-project
-forge init --template https://github.com/DeGatchi/forge-contract
-npm install ## install development dependencies
-forge build
-forge test
-```
+1. [`Implementation.sol`](contracts/Implementation.sol): Deployed once and used as implementation contract in `Proxy.sol`.
+2. [`Proxy.sol`](contracts/Proxy.sol): Each user has a unique `Proxy` deployment with the above implementation. This is a simply proxy contract which delegatecalls the implementation contract. It has an access control check that allows only the owner to use the fallback function.
 
-## Features
+The idea is that users can keep their funds, for example, ETH or ERC20 tokens in the Proxy. To use these funds, users can execute arbitrary calls and arbitrary delegatecalls by using the implementation contract (it has `callContract` and `delegatecallContract`). The implementation contract is deployed only once and reused to save gas.
 
-### Testing Utilities
+There is a **critical bug** in the wallet protocol. The exercise is to find it and write it in markdown format, in accordance with the style guide.
 
-Includes common testing contracts like `Hevm.sol` and `Console.sol`, as well as a `Utilities.sol` contract with common testing methods like creating users with an initial balance.
+For simplicity, we expect 
 
-### Preinstalled dependencies
+```md
+## Short title for the issue
 
-`ds-test`, `solmate` + `openzeppelin` are already installed.
+**Severity**: High / Medium / Low / Informational / Gas Optimisation
 
-### Truffle 
+Context: [`File.sol#L123`](github.com/permalink)
 
-Installed for the truffle flattener b/c Forge isn't compatible w/ chain deployments separate from Ethereum.
+Description of the attack.
 
-### Linting
-
-Pre-configured `solhint` and `prettier-plugin-solidity`. Can be run by
-
-```
-npm run solhint
-npm run prettier
+**Recommendation**: Description on how to avoid the issue.
 ```
 
-### CI with Github Actions
+Reference: [Style guide for writing Spearbit reports](https://hackmd.io/@spearbit/S1T63tOqt).
 
-Automatically run linting and tests on pull requests.
 
-### Default Configuration
-
-Including `.gitignore`, `.vscode`, `remappings.txt`
+*Bonus*: There is simple, yet niche technique to avoid the critical issue by modifying `Implementation.sol`. Bonus point if you can include this in your recommendation.
