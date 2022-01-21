@@ -10,6 +10,10 @@ pragma solidity ^0.8.9;
 /// construction.
 ///
 /// The implementation will be set to a deployment of `Implementation.sol`.
+
+/**
+    @dev Proxy acts as a wallet for users to hold funds.
+ */
 contract Proxy {
     address immutable public owner;
     address public implementation;
