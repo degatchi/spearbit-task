@@ -37,7 +37,6 @@ Reference: [Style guide for writing Spearbit reports](https://hackmd.io/@spearbi
 **Severity**: High
 
 Context
-```
 ## Short title for the issue
 
 **Severity**: High / Medium / Low / Informational / Gas Optimisation
@@ -49,4 +48,3 @@ The `delegatecallContract()` is able to be accessed by anyone, due to the lack o
 **Recommendation**: 
 - Add access control to restrict the Proxy's `implementation` contract to only being accessible to the single proxy.
 - Add state modifying function for `implementation` to future proof and prevent events similar to this one from happening again.
-```
