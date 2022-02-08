@@ -66,4 +66,12 @@ contract ContractTest is DSTest {
             abi.encodeWithSignature("attack(address)", address(IMPLEMENTATION_SAFE))
         );
     }
+
+    function test_afterFail() public {
+        IMPLEMENTATION_SAFE.delegatecallContract(
+            address(ATTACK),
+            abi.encodeWithSignature("work(uint256)", 50)
+        );
+    }
+
 }
