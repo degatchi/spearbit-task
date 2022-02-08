@@ -13,6 +13,7 @@ import {MockERC721} from "./mock-ercs/ERC721.sol";
 import {MockERC20} from "./mock-ercs/ERC20.sol";
 
 import {Implementation} from "../Implementation.sol";
+import {ImplementationSafe} from "../ImplementationSafe.sol";
 import {Proxy} from "../Proxy.sol";
 import {Attack} from "../Attack.sol";
 
@@ -26,13 +27,19 @@ contract ContractTest is DSTest {
 
     Implementation internal IMPLEMENTATION;
     Proxy internal PROXY;
+
+    ImplementationSafe internal IMPLEMENTATION_SAFE;
+
     Attack internal ATTACK;
 
     function setUp() public {
         utils = new Utilities();
 
         IMPLEMENTATION = new Implementation();
-        PROXY = new Proxy(address(IMPLEMENTATION), victim);
+
+        IMPLEMENTATION_SAFE = new ImplementationSafe();
+        PROXY = new Proxy(address(IMPLEMENTATION_SAFE), victim);
+
         ATTACK = new Attack();
     }
 
@@ -46,8 +53,17 @@ contract ContractTest is DSTest {
         hevm.startPrank(attacker);
 
         IMPLEMENTATION.delegatecallContract(
-            address(IMPLEMENTATION),
+            address(ATTACK),
             abi.encodeWithSignature("attack(address)", address(IMPLEMENTATION))
+        );
+    }
+
+    function testFail_exploit() public {
+        hevm.startPrank(attacker);
+
+        IMPLEMENTATION_SAFE.delegatecallContract(
+            address(ATTACK),
+            abi.encodeWithSignature("attack(address)", address(IMPLEMENTATION_SAFE))
         );
     }
 }

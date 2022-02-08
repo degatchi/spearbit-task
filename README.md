@@ -42,5 +42,17 @@ Reference: [Style guide for writing Spearbit reports](https://hackmd.io/@spearbi
 The `delegatecallContract(address a, byes calldata _calldata)` is able to be accessed by anyone, due to the lack of access control implementations. This allows anyone to deploy a contract with `selfdestruct()` then forwarding it to `Implementation.sol` via `_calldata` to remove all of it's bytecode, disabling all functionality. When disabled, any `Proxy.sol` using `Implementation.sol` is now permanently denied of access to their funds because it 1) relies on the now useless `Implementation.sol` (https://github.com/spearbit-audits/writing-exercise/blob/develop/contracts/Proxy.sol#L15) to execute transactions and 2) there is no state modifying function to change the `implementation` state to redirect to a different implementation.
 
 **Recommendation**: 
+***SECOND TRY***
+```
+function delegatecallContract(address a, bytes calldata _calldata) payable external returns (bytes memory) {
+        (bool success, bytes memory ret) =  a.delegatecall(_calldata);
+        require(success);
+        return ret;
+        
+    }
+```
+- Adding UniswapV3's `NoDelegateCall` contract's `noDelegateCall()` modifier prevents `delegatecall` into the modified method.
+
+***FIRST TRY***
 - Add access control to restrict the Proxy's `implementation` contract to only being accessible to the single proxy.
 - Add state modifying function for `implementation` to future proof and prevent events similar to this one from happening again.
