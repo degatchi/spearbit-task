@@ -51,7 +51,7 @@ function delegatecallContract(address a, bytes calldata _calldata) payable exter
         
     }
 ```
-- Adding UniswapV3's `NoDelegateCall` contract's `noDelegateCall()` modifier prevents `delegatecall` into the modified method.
+- Adding UniswapV3's `NoDelegateCall` contract's `noDelegateCall()` modifier (in reverse (https://github.com/Uniswap/v3-core/blob/main/contracts/NoDelegateCall.sol#L19) (`require(address(this) != original);`)) ensures that any function call the `implementation.sol` contract's `delegatecallContract` is *ONLY* a delegatecall + not a mutable function call.
 
 ***FIRST TRY***
 - Add access control to restrict the Proxy's `implementation` contract to only being accessible to the single proxy.
